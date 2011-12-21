@@ -1,65 +1,75 @@
 package todos.client;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.*;
-import todos.client.pacgwt.WidgetView;
+import com.google.gwt.dom.client.ButtonElement;
+import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.InputElement;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
+import todos.client.pacgwt.DomView;
 
 /**
  * A single to-do item user interface
  */
-public class TodoView extends WidgetView<TodoCtl, HorizontalPanel> {
+public class TodoView extends DomView<TodoCtl, DivElement> {
 
     // HACK Unsafe because we have no guarantee these fields are initialized
-    private CheckBox done;
-    private Button delete;
+    private InputElement done;
+    private ButtonElement delete;
 
     public TodoView(TodoCtl control) {
         super(control);
     }
 
-    public TodoView(TodoCtl control, HorizontalPanel root) {
+    public TodoView(TodoCtl control, DivElement root) {
         super(control, root);
         // TODO bind done and delete buttons
     }
 
-    @Override public HorizontalPanel create() {
-        HorizontalPanel root = new HorizontalPanel();
-        done = new CheckBox();
-        done.setValue(control().data().done);
-        if (control().data().done) done.addStyleName("done");
-        delete = new Button("Delete");
+    @Override public DivElement create() {
 
-        root.add(done);
-        root.add(new Label(control().data().name));
-        root.add(delete);
+        DivElement root = DivElement.as(DOM.createDiv());
+
+        done = InputElement.as(DOM.createInputCheck());
+        done.setChecked(control().data().done);
+        if (control().data().done) root.setClassName("done");
+
+        delete = ButtonElement.as(DOM.createButton());
+        delete.setInnerText("Delete");
+
+        Element name = DOM.createSpan();
+        name.setInnerText(control().data().name);
+
+        root.appendChild(done);
+        root.appendChild(name);
+        root.appendChild(delete);
 
         return root;
     }
 
     @Override public void update() {
-        done.setValue(control().data().done);
+        done.setChecked(control().data().done);
         if (control().data().done) {
-            root.addStyleName("done");
+            root.setClassName("done");
         } else {
-            root.removeStyleName("done");
+            root.setClassName("");
         }
     }
 
     // Bind events and delegate logic handling to the control
     @Override public void bindEvents() {
         super.bindEvents();
-        delete.addClickHandler(new ClickHandler() {
-            @Override public void onClick(ClickEvent clickEvent) {
-                control().delete();
-            }
-        });
-
-        done.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-            @Override public void onValueChange(ValueChangeEvent<Boolean> e) {
-                control().toggle();
+        Event.addNativePreviewHandler(new Event.NativePreviewHandler() {
+            @Override public void onPreviewNativeEvent(Event.NativePreviewEvent preview) {
+                NativeEvent evt = preview.getNativeEvent();
+                if (evt.getType().equalsIgnoreCase("click")) {
+                    if (evt.getEventTarget().cast() == delete) {
+                        control().delete();
+                    } else if (evt.getEventTarget().cast() == done) {
+                        control().toggle();
+                    }
+                }
             }
         });
     }

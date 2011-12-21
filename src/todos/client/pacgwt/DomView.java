@@ -4,8 +4,8 @@ import com.google.gwt.dom.client.Node;
 
 /**
  * An attempt of a base Dom view, but actually GWT API for DOM manipulation is not friendly to use
- * @param <C>
- * @param <N>
+ * @param <C> Type of the control associated with this view
+ * @param <N> Type of the root node of this view
  */
 public abstract class DomView<C extends Control, N extends Node> extends View<C, Node, N> {
 

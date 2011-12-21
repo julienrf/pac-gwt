@@ -1,15 +1,16 @@
 package todos.client;
 
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.InputElement;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import todos.client.pacgwt.WidgetView;
+import todos.client.pacgwt.DomView;
 
 /**
  * The to-do list user interface
  */
-public class TodosView extends WidgetView<TodosCtl, VerticalPanel> {
+public class TodosView extends DomView<TodosCtl, DivElement> {
 
     private InputElement addTodo;
 
@@ -17,14 +18,14 @@ public class TodosView extends WidgetView<TodosCtl, VerticalPanel> {
         super(control);
     }
 
-    public TodosView(TodosCtl control, VerticalPanel root) {
+    public TodosView(TodosCtl control, DivElement root) {
         super(control, root);
     }
 
-    @Override public VerticalPanel create() {
-        VerticalPanel todos = new VerticalPanel();
+    @Override public DivElement create() {
+        DivElement todos = DivElement.as(DOM.createDiv());
         RootPanel container = RootPanel.get("todo-placeholder"); // HACK this node should be passed as a parameter
-        container.add(todos);
+        container.getElement().appendChild(todos);
 
         addTodo = InputElement.as(RootPanel.get("todo-input").getElement()); // HACK, too
 
@@ -45,7 +46,7 @@ public class TodosView extends WidgetView<TodosCtl, VerticalPanel> {
     }
 
     @Override public void update() {
-        root.clear();
+        root.setInnerHTML("");
         for (TodoCtl todo : control().todos()) {
             add(todo.view().root());
         }
