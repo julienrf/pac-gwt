@@ -1,4 +1,4 @@
-package todos.client;
+package todos.pacgwt;
 
 /**
  * Base class for views
@@ -37,7 +37,14 @@ public abstract class View<C extends Control, T, V extends T> {
      * @return the control associated with this view
      */
     public final C control() {
-        return this.control;
+        return control;
+    }
+
+    /**
+     * @return the root element of this view
+     */
+    public final V root() {
+        return root;
     }
 
     /**

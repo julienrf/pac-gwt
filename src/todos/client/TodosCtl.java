@@ -1,6 +1,7 @@
 package todos.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import todos.pacgwt.Control;
 import todos.shared.Todo;
 
 import java.util.ArrayList;

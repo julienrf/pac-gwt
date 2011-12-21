@@ -1,4 +1,4 @@
-package todos.client;
+package todos.pacgwt;
 
 /**
  * Define the contract of controls

@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import todos.pacgwt.WidgetView;
 
 /**
  * The to-do list user interface
@@ -46,7 +47,7 @@ public class TodosView extends WidgetView<TodosCtl, VerticalPanel> {
     @Override public void update() {
         root.clear();
         for (TodoCtl todo : control().todos()) {
-            add(todo.view().root);
+            add(todo.view().root());
         }
     }
 }
