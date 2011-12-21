@@ -1,8 +1,8 @@
 package todos.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import todos.pacgwt.Control;
-import todos.shared.Todo;
+import todos.client.pacgwt.Control;
+import todos.shared.TodoData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +33,13 @@ public class TodosCtl implements Control<TodosView> {
     }
 
     public void fetch() {
-        Todos.service.list(new AsyncCallback<Todo[]>() {
+        Todos.service.list(new AsyncCallback<TodoData[]>() {
             @Override public void onFailure(Throwable throwable) { /* TODO */ }
 
-            @Override public void onSuccess(Todo[] ts) {
+            @Override public void onSuccess(TodoData[] datas) {
                 todos.clear();
-                for (Todo todo : ts) {
-                    todos.add(new TodoCtl(TodosCtl.this, todo.name, todo.done));
+                for (TodoData data : datas) {
+                    todos.add(new TodoCtl(TodosCtl.this, data));
                 }
                 view.update();
             }
@@ -47,14 +47,13 @@ public class TodosCtl implements Control<TodosView> {
     }
 
     public void create(String value) {
-        Todos.service.create(value, new AsyncCallback<Todo>() {
+        Todos.service.create(value, new AsyncCallback<TodoData>() {
             @Override public void onFailure(Throwable throwable) { /* TODO */ }
 
-            @Override public void onSuccess(Todo todo) {
-                // FIXME I should not use inheritance between Todo and TodoCtl, but delegation since I’m copying all Todo proporties in the new TodoCtl object
-                TodoCtl ctl = new TodoCtl(TodosCtl.this, todo.name, todo.done);
+            @Override public void onSuccess(TodoData data) {
+                TodoCtl ctl = new TodoCtl(TodosCtl.this, data);
                 todos.add(ctl);
-                view.add(ctl.view().root);
+                view.add(ctl.view().root());
             }
         });
 

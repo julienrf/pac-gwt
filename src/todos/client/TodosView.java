@@ -4,7 +4,7 @@ import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import todos.pacgwt.WidgetView;
+import todos.client.pacgwt.WidgetView;
 
 /**
  * The to-do list user interface

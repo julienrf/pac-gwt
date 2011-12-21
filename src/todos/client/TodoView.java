@@ -5,7 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.*;
-import todos.pacgwt.WidgetView;
+import todos.client.pacgwt.WidgetView;
 
 /**
  * A single to-do item user interface
@@ -28,20 +28,20 @@ public class TodoView extends WidgetView<TodoCtl, HorizontalPanel> {
     @Override public HorizontalPanel create() {
         HorizontalPanel root = new HorizontalPanel();
         done = new CheckBox();
-        done.setValue(control().done);
-        if (control().done) done.addStyleName("done");
+        done.setValue(control().data().done);
+        if (control().data().done) done.addStyleName("done");
         delete = new Button("Delete");
 
         root.add(done);
-        root.add(new Label(control().name));
+        root.add(new Label(control().data().name));
         root.add(delete);
 
         return root;
     }
 
     @Override public void update() {
-        done.setValue(control().done);
-        if (control().done) {
+        done.setValue(control().data().done);
+        if (control().data().done) {
             root.addStyleName("done");
         } else {
             root.removeStyleName("done");

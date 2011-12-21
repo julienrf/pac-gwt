@@ -1,8 +1,9 @@
 package todos.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import todos.pacgwt.Control;
+import todos.client.pacgwt.Control;
 import todos.shared.Todo;
+import todos.shared.TodoData;
 
 /**
  * Handle a to-do item.
@@ -13,8 +14,8 @@ public class TodoCtl extends Todo implements Control<TodoView> {
     private final TodoView view;
     private final TodosCtl todos;
     
-    public TodoCtl(TodosCtl todos, String name, boolean done) {
-        super(name, done);
+    public TodoCtl(TodosCtl todos, TodoData data) {
+        super(data);
         this.todos = todos;
         view = new TodoView(this); // FIXME I should not pass “this” as a parameter
     }
@@ -23,12 +24,22 @@ public class TodoCtl extends Todo implements Control<TodoView> {
         return view;
     }
 
+    /**
+     * Toggle action
+     * FIXME abstract this pattern
+     */
     @Override public void toggle() {
+        // Call the parent implementation and update the view (immediate feedback)
         super.toggle();
-        Todos.service.toggle(todos.idOf(this), new AsyncCallback<Todo>() {
+        view.update();
+
+        // Sync with the server
+        Todos.service.toggle(todos.idOf(this), new AsyncCallback<TodoData>() {
             @Override public void onFailure(Throwable throwable) { /* TODO */ }
 
-            @Override public void onSuccess(Todo model) {
+            @Override public void onSuccess(TodoData data) {
+                // Update our data with reference data from the server and update the view
+                TodoCtl.this.data = data;
                 view.update();
             }
         });

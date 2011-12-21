@@ -1,4 +1,4 @@
-package todos.pacgwt;
+package todos.client.pacgwt;
 
 import com.google.gwt.dom.client.Node;
 

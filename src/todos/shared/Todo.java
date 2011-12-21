@@ -1,24 +1,26 @@
 package todos.shared;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
+/**
+ * A to-do item and its logic
+ */
+public class Todo {
 
-public class Todo implements IsSerializable {
+    protected TodoData data;
 
-    public String name;
-    public Boolean done;
-
-    public Todo(String name, Boolean done) {
-        this.done = done;
-        this.name = name;
+    public Todo(TodoData data) {
+        this.data = data;
     }
 
-    // Why do I need to do that?
-    public Todo() {
-        done = false;
-        name = "";
+    // Convenient constructor
+    public Todo(String name) {
+        this.data = new TodoData(name, false);
     }
 
     public void toggle() {
-        done = !done;
+        data.done = !data.done;
+    }
+
+    public TodoData data() {
+        return data;
     }
 }
