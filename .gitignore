@@ -1,0 +1,7 @@
+.idea/
+*.iml
+war/todos/
+war/WEB-INF/classes/
+war/WEB-INF/deploy/
+gwt-unitCache/
+out/
