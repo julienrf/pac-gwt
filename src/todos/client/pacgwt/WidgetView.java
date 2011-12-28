@@ -5,17 +5,12 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Base class for Widgets views
- * @param <C> Control type
  * @param <W> This widget type
  */
-public abstract class WidgetView<C extends Control, W extends Widget> extends View<C, Widget, W> {
+public abstract class WidgetView<W extends Widget> extends View<Widget, W> {
 
-    public WidgetView(C control) {
-        super(control);
-    }
-
-    public WidgetView(C control, W root) {
-        super(control, root);
+    public WidgetView(W root) {
+        super(root);
     }
 
     @Override public void remove() {

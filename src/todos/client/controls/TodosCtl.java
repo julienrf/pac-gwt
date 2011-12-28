@@ -2,7 +2,9 @@ package todos.client.controls;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import todos.client.Todos;
+import todos.client.pacgwt.Component;
 import todos.client.pacgwt.Control;
+import todos.client.pacgwt.EventSource;
 import todos.client.views.TodoView;
 import todos.client.views.TodosView;
 import todos.shared.TodoData;
@@ -20,7 +22,12 @@ public class TodosCtl implements Control {
 
     public TodosCtl() {
         this.todos = new ArrayList<TodoCtl>();
-        this.view = new TodosView(this);
+        this.view = Component.register(new TodosView(TodosView.create()), this);
+        this.view.subscribe(TodosView.AddPressed.class, new EventSource.Handler<TodosView.AddPressed>() {
+            @Override public void apply(TodosView.AddPressed event) {
+                create(event.value);
+            }
+        });
     }
 
     public Iterable<TodoCtl> todos() {

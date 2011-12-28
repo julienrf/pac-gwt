@@ -7,46 +7,63 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
-import todos.client.controls.TodoCtl;
 import todos.client.pacgwt.DomView;
 
 /**
  * A single to-do item user interface
  */
-public class TodoView extends DomView<TodoCtl, DivElement> {
+public class TodoView extends DomView<DivElement> {
 
-    // HACK Unsafe because we have no guarantee these fields are initialized
-    private InputElement done;
-    private ButtonElement delete;
+    public static class Data {
+        private final String name;
+        private final boolean done;
 
-    public TodoView(TodoCtl control) {
-        super(control);
+        public Data(String name, boolean done) {
+            this.done = done;
+            this.name = name;
+        }
     }
 
-    public TodoView(TodoCtl control, DivElement root) {
-        super(control, root);
-        // TODO bind done and delete buttons
+    public static class Dom {
+        private final DivElement root;
+        private final InputElement done;
+        private final ButtonElement delete;
+
+        public Dom(DivElement root, InputElement done, ButtonElement delete) {
+            this.delete = delete;
+            this.done = done;
+            this.root = root;
+        }
     }
 
-    @Override public DivElement create() {
+    private final InputElement done;
+    private final ButtonElement delete;
+
+    public TodoView(Dom dom) {
+        super(dom.root);
+        done = dom.done;
+        delete = dom.delete;
+    }
+
+    public static Dom create(Data data) {
 
         DivElement root = DivElement.as(DOM.createDiv());
 
-        done = InputElement.as(DOM.createInputCheck());
-        done.setChecked(control().data().done);
-        if (control().data().done) root.setClassName("done");
+        InputElement done = InputElement.as(DOM.createInputCheck());
+        done.setChecked(data.done);
+        if (data.done) root.setClassName("done");
 
-        delete = ButtonElement.as(DOM.createButton());
+        ButtonElement delete = ButtonElement.as(DOM.createButton());
         delete.setInnerText("Delete");
 
-        Element name = DOM.createSpan();
-        name.setInnerText(control().data().name);
+        Element nameSpan = DOM.createSpan();
+        nameSpan.setInnerText(data.name);
 
         root.appendChild(done);
-        root.appendChild(name);
+        root.appendChild(nameSpan);
         root.appendChild(delete);
 
-        return root;
+        return new Dom(root, done, delete);
     }
 
     public void update(boolean isDone) {
@@ -66,12 +83,19 @@ public class TodoView extends DomView<TodoCtl, DivElement> {
                 NativeEvent evt = preview.getNativeEvent();
                 if (evt.getType().equalsIgnoreCase("click")) {
                     if (evt.getEventTarget().cast() == delete) {
-                        control().delete();
+                        publish(new DeleteClicked());
                     } else if (evt.getEventTarget().cast() == done) {
-                        control().toggle();
+                        publish(new ToggleClicked());
                     }
                 }
             }
         });
+    }
+
+    public static class DeleteClicked {
+        private DeleteClicked() { }
+    }
+    public static class ToggleClicked {
+        private ToggleClicked() { }
     }
 }
