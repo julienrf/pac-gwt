@@ -2,6 +2,7 @@ package todos.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import todos.client.controls.TodosCtl;
 
 public class Todos implements EntryPoint {
 

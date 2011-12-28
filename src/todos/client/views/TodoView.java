@@ -1,4 +1,4 @@
-package todos.client;
+package todos.client.views;
 
 import com.google.gwt.dom.client.ButtonElement;
 import com.google.gwt.dom.client.DivElement;
@@ -7,6 +7,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import todos.client.controls.TodoCtl;
 import todos.client.pacgwt.DomView;
 
 /**

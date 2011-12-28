@@ -8,7 +8,7 @@ package todos.client.pacgwt;
  */
 public abstract class View<C extends Control, T, V extends T> {
     
-    private final C control;
+    private final C control; // Needed because it is the only way to retrieve the component interface from the view
     protected final V root;
 
     /**

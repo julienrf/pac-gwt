@@ -1,6 +1,8 @@
-package todos.client;
+package todos.client.controls;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import todos.client.Todos;
+import todos.client.views.TodosView;
 import todos.client.pacgwt.Control;
 import todos.shared.TodoData;
 
