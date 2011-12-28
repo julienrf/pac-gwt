@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Handle the to-do list
  */
-public class TodosCtl implements Control<TodosView> {
+public class TodosCtl implements Control {
 
     private final List<TodoCtl> todos;
     private final TodosView view;
@@ -20,10 +20,6 @@ public class TodosCtl implements Control<TodosView> {
         this.view = new TodosView(this);
     }
 
-    @Override public TodosView view() {
-        return view;
-    }
-    
     public Iterable<TodoCtl> todos() {
         return todos;
     }

@@ -9,7 +9,7 @@ import todos.shared.TodoData;
  * Handle a to-do item.
  * Acts as a proxy (through inheritance, but that may not be a good idea since it implements IsSerializable which I don’t want to)
  */
-public class TodoCtl extends Todo implements Control<TodoView> {
+public class TodoCtl extends Todo implements Control {
     
     private final TodoView view;
     private final TodosCtl todos;
@@ -20,7 +20,7 @@ public class TodoCtl extends Todo implements Control<TodoView> {
         view = new TodoView(this); // FIXME I should not pass “this” as a parameter
     }
     
-    @Override public TodoView view() {
+    public TodoView view() {
         return view;
     }
 

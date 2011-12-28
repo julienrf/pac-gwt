@@ -1,13 +1,6 @@
 package todos.client.pacgwt;
 
 /**
- * Define the contract of controls
- * @param <V> Type of the view associated with this control
+ * Define the contract of controls. Actually nothing.
  */
-public interface Control<V extends View> {
-    /**
-     * @return The view associated with this control
-     */
-    // FIXME What about controls having multiple views?
-    V view();
-}
+public interface Control { }
