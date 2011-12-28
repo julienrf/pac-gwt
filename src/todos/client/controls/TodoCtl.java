@@ -33,7 +33,7 @@ public class TodoCtl extends Todo implements Control {
     @Override public void toggle() {
         // Call the parent implementation and update the view (immediate feedback)
         super.toggle();
-        view.update();
+        view.update(data.done);
 
         // Sync with the server
         Todos.service.toggle(todos.idOf(this), new AsyncCallback<TodoData>() {
@@ -42,7 +42,7 @@ public class TodoCtl extends Todo implements Control {
             @Override public void onSuccess(TodoData data) {
                 // Update our data with reference data from the server and update the view
                 TodoCtl.this.data = data;
-                view.update();
+                view.update(data.done);
             }
         });
     }

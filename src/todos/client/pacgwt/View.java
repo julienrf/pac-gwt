@@ -8,7 +8,7 @@ package todos.client.pacgwt;
  */
 public abstract class View<C extends Control, T, V extends T> {
     
-    private final C control; // Needed because it is the only way to retrieve the component interface from the view
+    private final C control; // FIXME Needed because this is the only way to retrieve the component interface from the view. It introduces a dependency between the view and its control, though
     protected final V root;
 
     /**
@@ -52,12 +52,6 @@ public abstract class View<C extends Control, T, V extends T> {
      * @return The root component of the UI
      */
     public abstract V create();
-
-    /**
-     * Update UI content
-     * FIXME I should pass data as parameters instead of letting the view getting them from the control (since it introduces a coupling between the view and the control
-     */
-    public abstract void update();
 
     /**
      * Automatically called when a view is created or bound.

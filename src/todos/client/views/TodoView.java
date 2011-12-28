@@ -49,9 +49,9 @@ public class TodoView extends DomView<TodoCtl, DivElement> {
         return root;
     }
 
-    @Override public void update() {
-        done.setChecked(control().data().done);
-        if (control().data().done) {
+    public void update(boolean isDone) {
+        done.setChecked(isDone);
+        if (isDone) {
             root.setClassName("done");
         } else {
             root.setClassName("");

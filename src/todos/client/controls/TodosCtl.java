@@ -2,8 +2,9 @@ package todos.client.controls;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import todos.client.Todos;
-import todos.client.views.TodosView;
 import todos.client.pacgwt.Control;
+import todos.client.views.TodoView;
+import todos.client.views.TodosView;
 import todos.shared.TodoData;
 
 import java.util.ArrayList;
@@ -36,10 +37,13 @@ public class TodosCtl implements Control {
 
             @Override public void onSuccess(TodoData[] datas) {
                 todos.clear();
+                final List<TodoView> views = new ArrayList<TodoView>(datas.length);
                 for (TodoData data : datas) {
-                    todos.add(new TodoCtl(TodosCtl.this, data));
+                    TodoCtl ctl = new TodoCtl(TodosCtl.this, data);
+                    todos.add(ctl);
+                    views.add(ctl.view());
                 }
-                view.update();
+                view.update(views);
             }
         });
     }

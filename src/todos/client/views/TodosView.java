@@ -5,9 +5,10 @@ import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.RootPanel;
-import todos.client.controls.TodoCtl;
 import todos.client.controls.TodosCtl;
 import todos.client.pacgwt.DomView;
+
+import java.util.List;
 
 /**
  * The to-do list user interface
@@ -47,10 +48,10 @@ public class TodosView extends DomView<TodosCtl, DivElement> {
         });
     }
 
-    @Override public void update() {
+    public void update(List<TodoView> todos) {
         root.setInnerHTML("");
-        for (TodoCtl todo : control().todos()) {
-            add(todo.view().root());
+        for (TodoView todo : todos) {
+            add(todo.root());
         }
     }
 }
