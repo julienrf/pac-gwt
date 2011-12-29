@@ -14,6 +14,11 @@ import todos.client.pacgwt.DomView;
  */
 public class TodoView extends DomView<DivElement> {
 
+    public interface Control {
+        void toggle();
+        void delete();
+    }
+
     public static class Data {
         private final String name;
         private final boolean done;
@@ -38,11 +43,13 @@ public class TodoView extends DomView<DivElement> {
 
     private final InputElement done;
     private final ButtonElement delete;
+    private final Control control;
 
-    public TodoView(Dom dom) {
+    public TodoView(Dom dom, Control control) {
         super(dom.root);
         done = dom.done;
         delete = dom.delete;
+        this.control = control;
     }
 
     public static Dom create(Data data) {
@@ -83,19 +90,12 @@ public class TodoView extends DomView<DivElement> {
                 NativeEvent evt = preview.getNativeEvent();
                 if (evt.getType().equalsIgnoreCase("click")) {
                     if (evt.getEventTarget().cast() == delete) {
-                        publish(new DeleteClicked());
+                        control.delete();
                     } else if (evt.getEventTarget().cast() == done) {
-                        publish(new ToggleClicked());
+                        control.toggle();
                     }
                 }
             }
         });
-    }
-
-    public static class DeleteClicked {
-        private DeleteClicked() { }
-    }
-    public static class ToggleClicked {
-        private ToggleClicked() { }
     }
 }

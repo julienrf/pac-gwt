@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class TodosView extends DomView<DivElement> {
 
+    public interface Control {
+        void create(String name);
+    }
+
     public static class Dom {
         private final DivElement root;
         private final InputElement addTodo;
@@ -25,10 +29,12 @@ public class TodosView extends DomView<DivElement> {
     }
 
     private final InputElement addTodo;
+    private final Control control;
 
-    public TodosView(Dom dom) {
+    public TodosView(Dom dom, Control control) {
         super(dom.root);
-        addTodo = dom.addTodo;
+        this.addTodo = dom.addTodo;
+        this.control = control;
     }
 
     public static Dom create() {
@@ -47,7 +53,7 @@ public class TodosView extends DomView<DivElement> {
             @Override
             public void onPreviewNativeEvent(Event.NativePreviewEvent preview) {
                 if (preview.getNativeEvent().getType().equalsIgnoreCase("keypress") && preview.getNativeEvent().getKeyCode() == 13 && preview.getNativeEvent().getEventTarget().cast() == addTodo) {
-                    publish(new AddPressed(addTodo.getValue()));
+                    control.create(addTodo.getValue());
                     addTodo.setValue("");
                 }
             }
@@ -58,14 +64,6 @@ public class TodosView extends DomView<DivElement> {
         root.setInnerHTML("");
         for (TodoView todo : todos) {
             add(todo.root());
-        }
-    }
-
-    public static class AddPressed {
-        public final String value;
-    
-        private AddPressed(String value) {
-            this.value = value;
         }
     }
 }

@@ -5,7 +5,7 @@ package todos.client.pacgwt;
  * @param <T> Base composite type of views
  * @param <V> Type of this view root component
  */
-public abstract class View<T, V extends T> extends EventSource {
+public abstract class View<T, V extends T> {
     
     protected final V root;
 

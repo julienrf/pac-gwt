@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Components registry
+ * Components registry (allows to retrieve a component from its view)
+ * May be removed in the future (since in practice views hold back a reference to their control, to send them events)
  */
 public class Component {
     private static Map<View, Control> components = new HashMap<View, Control>();

@@ -4,7 +4,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import todos.client.Todos;
 import todos.client.pacgwt.Component;
 import todos.client.pacgwt.Control;
-import todos.client.pacgwt.EventSource;
 import todos.client.views.TodoView;
 import todos.client.views.TodosView;
 import todos.shared.TodoData;
@@ -15,19 +14,14 @@ import java.util.List;
 /**
  * Handle the to-do list
  */
-public class TodosCtl implements Control {
+public class TodosCtl implements Control, TodosView.Control {
 
     private final List<TodoCtl> todos;
     private final TodosView view;
 
     public TodosCtl() {
         this.todos = new ArrayList<TodoCtl>();
-        this.view = Component.register(new TodosView(TodosView.create()), this);
-        this.view.subscribe(TodosView.AddPressed.class, new EventSource.Handler<TodosView.AddPressed>() {
-            @Override public void apply(TodosView.AddPressed event) {
-                create(event.value);
-            }
-        });
+        this.view = Component.register(new TodosView(TodosView.create(), this), this);
     }
 
     public Iterable<TodoCtl> todos() {
@@ -55,7 +49,7 @@ public class TodosCtl implements Control {
         });
     }
 
-    public void create(String value) {
+    @Override public void create(String value) {
         Todos.service.create(value, new AsyncCallback<TodoData>() {
             @Override public void onFailure(Throwable throwable) { /* TODO */ }
 
